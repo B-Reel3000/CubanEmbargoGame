@@ -33,6 +33,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Button choice2Button;
     [SerializeField] private Button choice3Button;
 
+    [Header("Screen Backgrounds")]
+    [SerializeField] private GameObject menuPanel;
+    [SerializeField] private Image topHUDBackground;
+    [SerializeField] private Image bottomActionBackground;
+
+    [Header("Player Feedback")]
+    [SerializeField] private GameObject feedbackPanel;
+    [SerializeField] private TMP_Text feedbackText;
+
     private Button[] actionButtons;
     private GameManager gameManager;
 
@@ -76,7 +85,8 @@ public class UIManager : MonoBehaviour
 
     bool ValidateReferences()
     {
-        if (levelText == null || dayText == null ||
+        if (gameManager == null ||
+            levelText == null || dayText == null ||
             moneyText == null || foodText == null ||
             fuelText == null || medicineText == null ||
             healthText == null || clinicText == null ||
@@ -84,7 +94,12 @@ public class UIManager : MonoBehaviour
             eventDescriptionText == null ||
             choice1Button == null ||
             choice2Button == null ||
-            choice3Button == null)
+            choice3Button == null ||
+            menuPanel == null ||
+            topHUDBackground == null ||
+            bottomActionBackground == null ||
+            feedbackPanel == null ||
+            feedbackText == null)
         {
             Debug.LogError(
                 "UIManager has missing Inspector references!");
@@ -102,6 +117,17 @@ public class UIManager : MonoBehaviour
         }
 
         return true;
+    }
+
+    // ======================================
+    // UI HELPERS
+    // ======================================
+
+    void SetGameplayAppearance(bool gameplay)
+    {
+        menuPanel.SetActive(!gameplay);
+        topHUDBackground.enabled = gameplay;
+        bottomActionBackground.enabled = gameplay;
     }
 
     void SetButton(Button button, bool visible, string label)
@@ -136,6 +162,27 @@ public class UIManager : MonoBehaviour
         clinicText.gameObject.SetActive(false);
     }
 
+    // ======================================
+    // PLAYER FEEDBACK
+    // ======================================
+
+    public void ShowFeedback(string message)
+    {
+        feedbackText.text = message;
+        feedbackPanel.SetActive(true);
+
+        Debug.Log("PLAYER FEEDBACK: " + message);
+    }
+
+    public void HideFeedback()
+    {
+        feedbackPanel.SetActive(false);
+    }
+
+    // ======================================
+    // RESOURCE DISPLAY
+    // ======================================
+
     public void UpdateResources(
         ResourceManager resources, int level, int day)
     {
@@ -164,12 +211,15 @@ public class UIManager : MonoBehaviour
     }
 
     // ======================================
-    // MENU SCREENS
+    // MENU
     // ======================================
 
     public void ShowMenu()
     {
+        SetGameplayAppearance(false);
+        HideFeedback();
         eventPanel.SetActive(false);
+
         HideResources();
         HideActionButtons();
 
@@ -183,6 +233,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowHelp()
     {
+        SetGameplayAppearance(false);
+        HideFeedback();
         HideActionButtons();
         HideResources();
 
@@ -207,6 +259,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowCredits()
     {
+        SetGameplayAppearance(false);
+        HideFeedback();
         HideActionButtons();
         HideResources();
 
@@ -218,8 +272,12 @@ public class UIManager : MonoBehaviour
         eventDescriptionText.text =
             "GD 135 - Serious Games Project\n\n" +
             "Cuban Embargo: Journey of Survival\n\n" +
-            "Developed by: [Ian Woodard, Braeden Allaman, Jane Puryear, Tyler A Prince ]\n\n" +
-            "Educational resource management game.";
+            "Developed by:\n" +
+            "Ian Woodard\n" +
+            "Braeden Allaman\n" +
+            "Jane Puryear\n" +
+            "Tyler A Prince\n\n" +
+            "Educational Resource Management Game";
 
         SetButton(choice1Button, true, "Main Menu");
         SetButton(choice2Button, false, "");
@@ -227,12 +285,14 @@ public class UIManager : MonoBehaviour
     }
 
     // ======================================
-    // GAMEPLAY SCREEN
+    // GAMEPLAY
     // ======================================
 
     public void ShowDay(
         ResourceManager resources, int level, int day)
     {
+        SetGameplayAppearance(true);
+        HideFeedback();
         eventPanel.SetActive(false);
 
         UpdateResources(resources, level, day);
@@ -250,13 +310,20 @@ public class UIManager : MonoBehaviour
             "Treat Patients");
     }
 
+    // ======================================
+    // RANDOM ENCOUNTERS
+    // ======================================
+
     public void ShowEncounter(
         EventManager events,
         ResourceManager resources,
         int level,
         int day)
     {
+        SetGameplayAppearance(true);
+        HideFeedback();
         HideActionButtons();
+
         UpdateResources(resources, level, day);
 
         eventPanel.SetActive(true);
@@ -281,6 +348,8 @@ public class UIManager : MonoBehaviour
     public void ShowGameOver(
         string reason, int level, int day)
     {
+        SetGameplayAppearance(false);
+        HideFeedback();
         HideActionButtons();
         HideResources();
 
@@ -290,7 +359,8 @@ public class UIManager : MonoBehaviour
         eventPanel.SetActive(true);
 
         eventDescriptionText.text =
-            "GAME OVER\n\n" + reason;
+            "GAME OVER\n\n" + reason +
+            "\n\nYour journey has ended.";
 
         SetButton(choice1Button, true, "Restart");
         SetButton(choice2Button, true, "Main Menu");
@@ -299,6 +369,8 @@ public class UIManager : MonoBehaviour
 
     public void ShowVictory(ResourceManager resources)
     {
+        SetGameplayAppearance(false);
+        HideFeedback();
         HideActionButtons();
         HideResources();
 
@@ -313,7 +385,8 @@ public class UIManager : MonoBehaviour
             "Final Health: " + resources.Health + "\n" +
             "Remaining Food: " + resources.Food + "\n" +
             "Remaining Money: $" + resources.Money + "\n" +
-            "Clinic Condition: " + resources.ClinicCondition;
+            "Clinic Condition: " +
+            resources.ClinicCondition;
 
         SetButton(choice1Button, true, "Play Again");
         SetButton(choice2Button, true, "Main Menu");

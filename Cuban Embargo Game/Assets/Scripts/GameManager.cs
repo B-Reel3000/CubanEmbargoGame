@@ -1,11 +1,13 @@
 
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     private enum GameState
     {
         Menu,
+        Intro,
         Help,
         Credits,
         Playing,
@@ -19,6 +21,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private EventManager events;
     [SerializeField] private UIManager ui;
 
+    [Header("Introduction")]
+    [SerializeField] private IntroTransition introTransition;
+
     private GameState state = GameState.Menu;
 
     private int level;
@@ -26,6 +31,25 @@ public class GameManager : MonoBehaviour
 
     private const int DaysPerLevel = 7;
     private const float EventChance = 0.45f;
+
+    private string pendingActionDescription;
+
+    // Stores resource values before each daily action.
+    private struct ResourceSnapshot
+    {
+        public int money;
+        public int food;
+        public int fuel;
+        public int medicine;
+        public int health;
+        public int clinic;
+    }
+
+    private ResourceSnapshot dayStartResources;
+
+    // ======================================
+    // INITIALIZATION
+    // ======================================
 
     void Start()
     {
@@ -38,10 +62,14 @@ public class GameManager : MonoBehaviour
         if (ui == null)
             ui = GetComponent<UIManager>();
 
+        if (introTransition == null)
+            introTransition = GetComponent<IntroTransition>();
+
         if (resources == null || events == null || ui == null)
         {
             Debug.LogError(
                 "GameManager is missing one or more systems!");
+
             enabled = false;
             return;
         }
@@ -50,6 +78,7 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError(
                 "GameManager could not initialize the UI.");
+
             enabled = false;
             return;
         }
@@ -80,6 +109,33 @@ public class GameManager : MonoBehaviour
     }
 
     // ======================================
+    // INTRODUCTION SEQUENCE
+    // ======================================
+
+    void StartIntro()
+    {
+        // Prevent gameplay inputs during the introduction.
+        state = GameState.Intro;
+
+        Debug.Log("Starting cinematic introduction...");
+
+        if (introTransition != null)
+        {
+            // Play the introduction, then start the game.
+            introTransition.PlayIntro(StartNewGame);
+        }
+        else
+        {
+            // If no transition exists, still allow gameplay.
+            Debug.LogWarning(
+                "IntroTransition not found. " +
+                "Starting gameplay directly.");
+
+            StartNewGame();
+        }
+    }
+
+    // ======================================
     // BUTTON INPUT
     // ======================================
 
@@ -90,7 +146,7 @@ public class GameManager : MonoBehaviour
             switch (buttonNumber)
             {
                 case 1:
-                    StartNewGame();
+                    StartIntro();
                     break;
 
                 case 2:
@@ -140,7 +196,7 @@ public class GameManager : MonoBehaviour
     }
 
     // ======================================
-    // GAME START / DAILY ACTIONS
+    // GAME START
     // ======================================
 
     void StartNewGame()
@@ -164,40 +220,142 @@ public class GameManager : MonoBehaviour
         Debug.Log("Level " + level + " - Day " + day);
     }
 
+    // ======================================
+    // RESOURCE SNAPSHOTS / FEEDBACK
+    // ======================================
+
+    ResourceSnapshot CaptureResources()
+    {
+        return new ResourceSnapshot
+        {
+            money = resources.Money,
+            food = resources.Food,
+            fuel = resources.Fuel,
+            medicine = resources.Medicine,
+            health = resources.Health,
+            clinic = resources.ClinicCondition
+        };
+    }
+
+    static void AddChange(
+        List<string> changes,
+        string label,
+        int amount,
+        bool currency = false)
+    {
+        if (amount == 0)
+            return;
+
+        string sign = amount > 0 ? "+" : "-";
+        string prefix = currency ? "$" : "";
+
+        changes.Add(
+            label + " " + sign +
+            prefix + Mathf.Abs(amount));
+    }
+
+    string GetNetResourceChanges()
+    {
+        List<string> changes = new List<string>();
+
+        AddChange(
+            changes,
+            "Money",
+            resources.Money - dayStartResources.money,
+            true);
+
+        AddChange(
+            changes,
+            "Food",
+            resources.Food - dayStartResources.food);
+
+        AddChange(
+            changes,
+            "Fuel",
+            resources.Fuel - dayStartResources.fuel);
+
+        AddChange(
+            changes,
+            "Medicine",
+            resources.Medicine - dayStartResources.medicine);
+
+        AddChange(
+            changes,
+            "Health",
+            resources.Health - dayStartResources.health);
+
+        if (level == 2)
+        {
+            AddChange(
+                changes,
+                "Clinic",
+                resources.ClinicCondition -
+                dayStartResources.clinic);
+        }
+
+        if (changes.Count == 0)
+            return "No net resource changes.";
+
+        return "Net changes: " +
+               string.Join(" | ", changes);
+    }
+
+    // ======================================
+    // DAILY ACTIONS
+    // ======================================
+
     void TakeAction(int action)
     {
+        // Save resources before the daily action.
+        dayStartResources = CaptureResources();
+
         switch (action)
         {
             case 1:
                 if (!resources.SpendMoney(12))
                 {
-                    Debug.Log("Not enough money for food.");
+                    ui.ShowFeedback(
+                        "Not enough money to buy food.");
                     return;
                 }
 
                 resources.AddFood(4);
+
+                pendingActionDescription =
+                    "Purchased 4 food for $12.";
+
                 Debug.Log("Purchased 4 food.");
                 break;
 
             case 2:
                 if (!resources.SpendMoney(10))
                 {
-                    Debug.Log("Not enough money for fuel.");
+                    ui.ShowFeedback(
+                        "Not enough money to buy fuel.");
                     return;
                 }
 
                 resources.AddFuel(2);
+
+                pendingActionDescription =
+                    "Purchased 2 fuel for $10.";
+
                 Debug.Log("Purchased 2 fuel.");
                 break;
 
             case 3:
                 if (!resources.SpendMoney(15))
                 {
-                    Debug.Log("Not enough money for medicine.");
+                    ui.ShowFeedback(
+                        "Not enough money to buy medicine.");
                     return;
                 }
 
                 resources.AddMedicine(2);
+
+                pendingActionDescription =
+                    "Purchased 2 medicine for $15.";
+
                 Debug.Log("Purchased 2 medicine.");
                 break;
 
@@ -205,11 +363,17 @@ public class GameManager : MonoBehaviour
                 resources.AddMoney(18);
                 resources.ChangeHealth(-5);
 
+                pendingActionDescription =
+                    "Worked a long shift and earned $18.";
+
                 Debug.Log("Worked and earned $18.");
                 break;
 
             case 5:
                 resources.ChangeHealth(12);
+
+                pendingActionDescription =
+                    "Rested to recover your family's health.";
 
                 Debug.Log("Rested and recovered health.");
                 break;
@@ -218,23 +382,36 @@ public class GameManager : MonoBehaviour
                 if (Random.value < 0.5f)
                 {
                     resources.AddFood(3);
+
+                    pendingActionDescription =
+                        "Neighbors shared 3 food with your family.";
+
                     Debug.Log("Neighbors provided food.");
                 }
                 else
                 {
+                    pendingActionDescription =
+                        "No community assistance was available.";
+
                     Debug.Log("No assistance available.");
                 }
+
                 break;
 
             case 7:
                 if (level != 2 ||
                     !resources.UseMedicine(1))
                 {
-                    Debug.Log("Unable to treat patients.");
+                    ui.ShowFeedback(
+                        "Unable to treat patients. " +
+                        "Medicine may be unavailable.");
                     return;
                 }
 
                 resources.ChangeClinic(12);
+
+                pendingActionDescription =
+                    "Treated patients at the community clinic.";
 
                 Debug.Log("Patients treated.");
                 break;
@@ -243,19 +420,20 @@ public class GameManager : MonoBehaviour
                 return;
         }
 
+        // Apply daily resource consumption.
         resources.ApplyDailyCosts(level, day);
 
         if (CheckGameOver())
             return;
 
-        // Chance of an encounter after daily activity
+        // Determine whether an encounter occurs.
         if (Random.value < EventChance)
         {
             BeginEncounter();
         }
         else
         {
-            FinishDay();
+            FinishDay(pendingActionDescription);
         }
     }
 
@@ -269,17 +447,31 @@ public class GameManager : MonoBehaviour
 
         events.GenerateEvent(level);
 
-        ui.ShowEncounter(events, resources, level, day);
+        ui.ShowEncounter(
+            events,
+            resources,
+            level,
+            day);
 
         Debug.Log(
-            "Encounter: " + events.GetEventDescription());
+            "Encounter: " +
+            events.GetEventDescription());
     }
 
     void ResolveEncounter(int choice)
     {
+        string eventName =
+            events.GetEventDescription().Split('\n')[0];
+
+        string selectedChoice =
+            events.GetChoiceText(choice);
+
         events.ResolveEvent(choice, resources);
 
-        FinishDay();
+        string feedback =
+            eventName + ": " + selectedChoice;
+
+        FinishDay(feedback);
     }
 
     // ======================================
@@ -290,23 +482,32 @@ public class GameManager : MonoBehaviour
     {
         if (resources.Health <= 0)
         {
-            GameOver("Your family's health reached zero.");
+            GameOver(
+                "Your family's health reached zero.");
+
             return true;
         }
 
-        if (level == 2 && resources.ClinicCondition <= 0)
+        if (level == 2 &&
+            resources.ClinicCondition <= 0)
         {
-            GameOver("The clinic could no longer operate.");
+            GameOver(
+                "The clinic could no longer operate.");
+
             return true;
         }
 
         return false;
     }
 
-    void FinishDay()
+    void FinishDay(string feedbackDescription)
     {
         if (CheckGameOver())
             return;
+
+        string dailyFeedback =
+            feedbackDescription + "\n" +
+            GetNetResourceChanges();
 
         Debug.Log("End of Day " + day);
 
@@ -315,14 +516,21 @@ public class GameManager : MonoBehaviour
         if (day > DaysPerLevel)
         {
             if (level == 1)
+            {
                 StartLevelTwo();
+            }
             else
+            {
                 WinGame();
+            }
 
             return;
         }
 
         ShowDay();
+
+        // Display the previous day's results.
+        ui.ShowFeedback(dailyFeedback);
     }
 
     void StartLevelTwo()
@@ -330,12 +538,20 @@ public class GameManager : MonoBehaviour
         level = 2;
         day = 1;
 
+        // Carry over resources and provide some
+        // additional supplies for the clinic.
         resources.AddMoney(20);
         resources.AddMedicine(2);
 
-        Debug.Log("Level 2: Rural Community Clinic");
+        Debug.Log(
+            "Level 2: Rural Community Clinic");
 
         ShowDay();
+
+        ui.ShowFeedback(
+            "Level 1 complete! You have reached " +
+            "the rural clinic. Your remaining resources " +
+            "have carried over.");
     }
 
     // ======================================
@@ -357,6 +573,7 @@ public class GameManager : MonoBehaviour
 
         ui.ShowVictory(resources);
 
-        Debug.Log("Victory! Both levels completed.");
+        Debug.Log(
+            "Victory! Both levels completed.");
     }
 }
