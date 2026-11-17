@@ -104,30 +104,30 @@ public class EventManager : MonoBehaviour
                 if (resources.SpendMoney(25))
                 {
                     resources.AddFood(5);
-                    Debug.Log("Purchased 5 food.");
+                    Debug.Log("Purchased food. (+5 Food)");
                 }
                 else
                 {
                     resources.ChangeHealth(-8);
-                    Debug.Log("Could not afford food. -8 Health");
+                    Debug.Log("Could not afford food. (-8 Health)");
                 }
                 break;
 
             case 2:
                 resources.ChangeHealth(-8);
-                Debug.Log("Rationed food. -8 Health");
+                Debug.Log("Rationed food. (-8 Health)");
                 break;
 
             case 3:
                 if (Random.value < 0.5f)
                 {
                     resources.AddFood(3);
-                    Debug.Log("Neighbors shared 3 food.");
+                    Debug.Log("Neighbors shared food. (+3 Food)");
                 }
                 else
                 {
                     resources.ChangeHealth(-5);
-                    Debug.Log("No assistance. -5 Health");
+                    Debug.Log("No assistance. (-5 Health)");
                 }
                 break;
         }
@@ -146,21 +146,20 @@ public class EventManager : MonoBehaviour
                 else
                 {
                     resources.ChangeHealth(-12);
-                    Debug.Log("Not enough fuel. -12 Health");
+                    Debug.Log("Not enough fuel. (-12 Health)");
                 }
                 break;
 
             case 2:
                 resources.ChangeHealth(-12);
-                Debug.Log("Endured outage. -12 Health");
+                Debug.Log("Endured outage. (-12 Health)");
                 break;
 
             case 3:
                 resources.ChangeHealth(-5);
                 resources.AddMoney(5);
 
-                Debug.Log("Helped with repairs.");
-                Debug.Log("Earned $5. Lost 5 Health.");
+                Debug.Log("Helped with repairs. (+$5, -5 Health.)");
                 break;
         }
     }
@@ -174,30 +173,30 @@ public class EventManager : MonoBehaviour
                 if (resources.SpendMoney(20))
                 {
                     resources.AddMedicine(3);
-                    Debug.Log("Purchased 3 medicine.");
+                    Debug.Log("Purchased medicine. (+3 Medicine)");
                 }
                 else
                 {
                     resources.ChangeClinic(-12);
-                    Debug.Log("Could not afford supplies.");
+                    Debug.Log("Could not afford supplies. (-12 Clinic)");
                 }
                 break;
 
             case 2:
                 resources.ChangeClinic(-12);
-                Debug.Log("Rationed medical supplies.");
+                Debug.Log("Rationed medical supplies. (-12 Clinic)");
                 break;
 
             case 3:
                 if (Random.value < 0.5f)
                 {
                     resources.AddMedicine(2);
-                    Debug.Log("Received 2 medicine.");
+                    Debug.Log("Received medicine. (+2 Medicine)");
                 }
                 else
                 {
                     resources.ChangeClinic(-8);
-                    Debug.Log("No supplies delivered.");
+                    Debug.Log("No supplies delivered. (-8 Clinic)");
                 }
                 break;
         }
@@ -216,7 +215,7 @@ public class EventManager : MonoBehaviour
                 else
                 {
                     resources.ChangeClinic(-15);
-                    Debug.Log("Could not afford repairs.");
+                    Debug.Log("Could not afford repairs. (-15 Clinic)");
                 }
                 break;
 
@@ -228,13 +227,13 @@ public class EventManager : MonoBehaviour
                 else
                 {
                     resources.ChangeClinic(-15);
-                    Debug.Log("Not enough emergency fuel.");
+                    Debug.Log("Not enough emergency fuel. (-15 Clinic)");
                 }
                 break;
 
             case 3:
                 resources.ChangeClinic(-15);
-                Debug.Log("Clinic operated without power.");
+                Debug.Log("Clinic went without power. (-15 Clinic)");
                 break;
         }
     }

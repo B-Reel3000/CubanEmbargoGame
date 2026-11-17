@@ -1,14 +1,22 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Tyler\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\",
+  "WorkspaceRootPath": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|c:\\users\\tyler\\documents\\github\\cubanembargogame\\cuban embargo game\\assets\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|c:\\users\\idwoodard\\documents\\github\\cubanembargogame\\cuban embargo game\\assets\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\uimanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|c:\\users\\tyler\\documents\\github\\cubanembargogame\\cuban embargo game\\assets\\scripts\\mainmenumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mainmenumanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|c:\\users\\idwoodard\\documents\\github\\cubanembargogame\\cuban embargo game\\assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\gamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|c:\\users\\idwoodard\\documents\\github\\cubanembargogame\\cuban embargo game\\assets\\scripts\\introtransition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\introtransition.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8121D8CA-726F-FA24-C01E-E3CCA7FB97CD}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\eventmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -24,26 +32,52 @@
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "UIManager.cs",
-              "DocumentMoniker": "C:\\Users\\Tyler\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\UIManager.cs",
+              "DocumentMoniker": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\UIManager.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UIManager.cs",
-              "ToolTip": "C:\\Users\\Tyler\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\UIManager.cs",
+              "ToolTip": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\UIManager.cs",
               "RelativeToolTip": "Assets\\Scripts\\UIManager.cs",
-              "ViewState": "AgIAAFkBAAAAAAAAAAAiwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAF4BAAAAAAAAAAAqwDMBAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-15T09:16:47.109Z",
+              "WhenOpened": "2026-11-17T20:32:24.245Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "MainMenuManager.cs",
-              "DocumentMoniker": "C:\\Users\\Tyler\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\MainMenuManager.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\MainMenuManager.cs",
-              "ToolTip": "C:\\Users\\Tyler\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\MainMenuManager.cs",
-              "RelativeToolTip": "Assets\\Scripts\\MainMenuManager.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAgAAAAAAAAAA==",
+              "Title": "GameManager.cs",
+              "DocumentMoniker": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\GameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\GameManager.cs",
+              "ToolTip": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\GameManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\GameManager.cs",
+              "ViewState": "AgIAAHwBAAAAAAAAAAAqwH4BAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-11-14T04:43:12.618Z",
+              "WhenOpened": "2026-11-17T20:27:44.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IntroTransition.cs",
+              "DocumentMoniker": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\IntroTransition.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\IntroTransition.cs",
+              "ToolTip": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\IntroTransition.cs",
+              "RelativeToolTip": "Assets\\Scripts\\IntroTransition.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAAACoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-17T20:15:57.232Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "EventManager.cs",
+              "DocumentMoniker": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\EventManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\EventManager.cs",
+              "ToolTip": "C:\\Users\\idwoodard\\Documents\\GitHub\\CubanEmbargoGame\\Cuban Embargo Game\\Assets\\Scripts\\EventManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\EventManager.cs",
+              "ViewState": "AgIAANcAAAAAAAAAAAAAwOUAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-11-17T19:53:09.291Z",
               "EditorCaption": ""
             }
           ]

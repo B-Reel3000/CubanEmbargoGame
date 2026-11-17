@@ -304,10 +304,7 @@ public class UIManager : MonoBehaviour
         SetButton(actionButtons[4], true, "Rest (+12 Health)");
         SetButton(actionButtons[5], true, "Seek Assistance");
 
-        SetButton(
-            actionButtons[6],
-            level == 2,
-            "Treat Patients");
+        SetButton(actionButtons[6], level == 2, "Treat Patients (-1 Med)");
     }
 
     // ======================================
