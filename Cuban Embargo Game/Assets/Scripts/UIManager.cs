@@ -94,6 +94,7 @@ public class UIManager : MonoBehaviour
         return true;
     }
 
+
     bool ValidateReferences()
     {
         if (gameManager == null ||
