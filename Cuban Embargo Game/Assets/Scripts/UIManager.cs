@@ -360,16 +360,17 @@ public class UIManager : MonoBehaviour
         HideActionButtons();
         HideResources();
         
-        //levelText.text = "GAME OVER";
-        dayText.text = "Level " + level + " - Day " + day;
+        levelText.text = "";
+        dayText.text = "";
 
         eventPanel.SetActive(true);
 
         eventDescriptionText.text =
             "GAME OVER\n\n" + reason +
+            "You made it to Level " + level + " - Day " + day +
             "\n\nYour journey has ended.";
 
-        SetButton(choice1Button, true, "Restart");
+        SetButton(choice1Button, true, "Retry");
         SetButton(choice2Button, true, "Main Menu");
         SetButton(choice3Button, false, "");
     }
@@ -380,10 +381,10 @@ public class UIManager : MonoBehaviour
         HideFeedback();
         HideActionButtons();
         HideResources();
-        /*
-        levelText.text = "VICTORY!";
-        dayText.text = "Both Levels Complete";
-        */
+        
+        levelText.text = "";
+        dayText.text = "";
+        
         eventPanel.SetActive(true);
 
         eventDescriptionText.text =
