@@ -96,13 +96,13 @@ public class GameManager : MonoBehaviour
         ui.ShowMenu();
     }
 
-    void ShowHelp()
+    public void ShowHelp()
     {
         state = GameState.Help;
         ui.ShowHelp();
     }
 
-    void ShowCredits()
+    public void ShowCredits()
     {
         state = GameState.Credits;
         ui.ShowCredits();
@@ -112,8 +112,10 @@ public class GameManager : MonoBehaviour
     // INTRODUCTION SEQUENCE
     // ======================================
 
-    void StartIntro()
+    public void StartIntro()
     {
+        ui.ToggleMenuButtons(false);
+
         // Prevent gameplay inputs during the introduction.
         state = GameState.Intro;
 
@@ -141,26 +143,6 @@ public class GameManager : MonoBehaviour
 
     public void OnActionButton(int buttonNumber)
     {
-        if (state == GameState.Menu)
-        {
-            switch (buttonNumber)
-            {
-                case 1:
-                    StartIntro();
-                    break;
-
-                case 2:
-                    ShowHelp();
-                    break;
-
-                case 3:
-                    ShowCredits();
-                    break;
-            }
-
-            return;
-        }
-
         if (state == GameState.Playing)
         {
             TakeAction(buttonNumber);

@@ -28,7 +28,9 @@ public class UIManager : MonoBehaviour
 
     [Header("Event UI")]
     [SerializeField] private GameObject eventPanel;
+    [SerializeField] private GameObject popupPanel;
     [SerializeField] private TMP_Text eventDescriptionText;
+    [SerializeField] private TMP_Text menuPopupText;
     [SerializeField] private Button choice1Button;
     [SerializeField] private Button choice2Button;
     [SerializeField] private Button choice3Button;
@@ -37,12 +39,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private Image topHUDBackground;
     [SerializeField] private Image bottomActionBackground;
+    [SerializeField] private GameObject playButton, helpButton, creditButton;
 
     [Header("Player Feedback")]
     [SerializeField] private GameObject feedbackPanel;
     [SerializeField] private TMP_Text feedbackText;
 
     private Button[] actionButtons;
+    private GameObject[] menuButtons;
     private GameManager gameManager;
 
     public bool Initialize(GameManager manager)
@@ -58,6 +62,13 @@ public class UIManager : MonoBehaviour
             restButton,
             assistanceButton,
             treatPatientsButton
+        };
+
+        menuButtons = new GameObject[]
+        {
+            playButton,
+            helpButton,
+            creditButton
         };
 
         if (!ValidateReferences())
@@ -162,6 +173,11 @@ public class UIManager : MonoBehaviour
         clinicText.gameObject.SetActive(false);
     }
 
+    public void ToggleMenuButtons(bool state)
+    {
+        foreach (GameObject button in menuButtons) { button.SetActive(state); }
+    }
+
     // ======================================
     // PLAYER FEEDBACK
     // ======================================
@@ -223,12 +239,10 @@ public class UIManager : MonoBehaviour
         HideResources();
         HideActionButtons();
 
-        levelText.text = "CUBAN EMBARGO";
-        dayText.text = "Journey of Survival";
+        levelText.text = "";
+        dayText.text = "";
 
-        SetButton(actionButtons[0], true, "Start Game");
-        SetButton(actionButtons[1], true, "Help");
-        SetButton(actionButtons[2], true, "Credits");
+        foreach(GameObject button in menuButtons) { button.SetActive(true); }
     }
 
     public void ShowHelp()
@@ -238,12 +252,12 @@ public class UIManager : MonoBehaviour
         HideActionButtons();
         HideResources();
 
-        levelText.text = "HELP";
+        levelText.text = "";
         dayText.text = "";
 
-        eventPanel.SetActive(true);
+        popupPanel.SetActive(true);
 
-        eventDescriptionText.text =
+        menuPopupText.text =
             "HOW TO PLAY\n\n" +
             "Survive 7 days in each of two levels.\n\n" +
             "Manage money, food, fuel, medicine and health.\n\n" +
@@ -252,9 +266,7 @@ public class UIManager : MonoBehaviour
             "In Level 2, maintain the community clinic.\n\n" +
             "Keep health above zero to survive.";
 
-        SetButton(choice1Button, true, "Main Menu");
-        SetButton(choice2Button, false, "");
-        SetButton(choice3Button, false, "");
+        foreach (GameObject button in menuButtons) { button.SetActive(false); }
     }
 
     public void ShowCredits()
@@ -264,12 +276,12 @@ public class UIManager : MonoBehaviour
         HideActionButtons();
         HideResources();
 
-        levelText.text = "CREDITS";
+        levelText.text = "";
         dayText.text = "";
 
-        eventPanel.SetActive(true);
+        popupPanel.SetActive(true);
 
-        eventDescriptionText.text =
+        menuPopupText.text =
             "GD 135 - Serious Games Project\n\n" +
             "Cuban Embargo: Journey of Survival\n\n" +
             "Developed by:\n" +
@@ -279,9 +291,7 @@ public class UIManager : MonoBehaviour
             "Tyler A Prince\n\n" +
             "Educational Resource Management Game";
 
-        SetButton(choice1Button, true, "Main Menu");
-        SetButton(choice2Button, false, "");
-        SetButton(choice3Button, false, "");
+        foreach (GameObject button in menuButtons) { button.SetActive(false); }
     }
 
     // ======================================
@@ -297,14 +307,14 @@ public class UIManager : MonoBehaviour
 
         UpdateResources(resources, level, day);
 
-        SetButton(actionButtons[0], true, "Buy Food ($12)");
-        SetButton(actionButtons[1], true, "Buy Fuel ($10)");
-        SetButton(actionButtons[2], true, "Buy Medicine ($15)");
-        SetButton(actionButtons[3], true, "Work (+$18)");
-        SetButton(actionButtons[4], true, "Rest (+12 Health)");
-        SetButton(actionButtons[5], true, "Seek Assistance");
+        SetButton(actionButtons[0], true, "Buy Food\n($12)");
+        SetButton(actionButtons[1], true, "Buy Fuel\n($10)");
+        SetButton(actionButtons[2], true, "Buy Medicine\n($15)");
+        SetButton(actionButtons[3], true, "Work\n(+$18)");
+        SetButton(actionButtons[4], true, "Rest\n(+12 Health)");
+        SetButton(actionButtons[5], true, "Seek Assistance\n");
 
-        SetButton(actionButtons[6], level == 2, "Treat Patients (-1 Med)");
+        SetButton(actionButtons[6], level == 2, "Treat Patients\n(-1 Med)");
     }
 
     // ======================================
@@ -349,8 +359,8 @@ public class UIManager : MonoBehaviour
         HideFeedback();
         HideActionButtons();
         HideResources();
-
-        levelText.text = "GAME OVER";
+        
+        //levelText.text = "GAME OVER";
         dayText.text = "Level " + level + " - Day " + day;
 
         eventPanel.SetActive(true);
@@ -370,10 +380,10 @@ public class UIManager : MonoBehaviour
         HideFeedback();
         HideActionButtons();
         HideResources();
-
+        /*
         levelText.text = "VICTORY!";
         dayText.text = "Both Levels Complete";
-
+        */
         eventPanel.SetActive(true);
 
         eventDescriptionText.text =
