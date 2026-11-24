@@ -530,10 +530,16 @@ public class GameManager : MonoBehaviour
 
         ShowDay();
 
+
+
+        /*
         ui.ShowFeedback(
             "Level 1 complete! You have reached " +
             "the rural clinic. Your remaining resources " +
             "have carried over.");
+        */
+
+        ui.LevelTwoIntroPanel();
     }
 
     // ======================================

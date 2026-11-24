@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
     [Header("Event UI")]
     [SerializeField] private GameObject eventPanel;
     [SerializeField] private GameObject popupPanel;
+    [SerializeField] private GameObject blockerPanel;
     [SerializeField] private TMP_Text eventDescriptionText;
     [SerializeField] private TMP_Text menuPopupText;
     [SerializeField] private Button choice1Button;
@@ -37,8 +38,8 @@ public class UIManager : MonoBehaviour
 
     [Header("Screen Backgrounds")]
     [SerializeField] private GameObject menuPanel;
-    [SerializeField] private Image topHUDBackground;
-    [SerializeField] private Image bottomActionBackground;
+    [SerializeField] private Image topHUDBackground, topHUDFrame;
+    [SerializeField] private Image bottomActionBackground, bottomHUDFrame;
     [SerializeField] private GameObject playButton, helpButton, creditButton;
 
     [Header("Player Feedback")]
@@ -139,7 +140,9 @@ public class UIManager : MonoBehaviour
     {
         menuPanel.SetActive(!gameplay);
         topHUDBackground.enabled = gameplay;
+        topHUDFrame.enabled = gameplay;
         bottomActionBackground.enabled = gameplay;
+        bottomHUDFrame.enabled = gameplay;
     }
 
     void SetButton(Button button, bool visible, string label)
@@ -166,12 +169,12 @@ public class UIManager : MonoBehaviour
 
     void HideResources()
     {
-        moneyText.gameObject.SetActive(false);
-        foodText.gameObject.SetActive(false);
-        fuelText.gameObject.SetActive(false);
-        medicineText.gameObject.SetActive(false);
-        healthText.gameObject.SetActive(false);
-        clinicText.gameObject.SetActive(false);
+        moneyText.transform.parent.gameObject.SetActive(false);
+        foodText.transform.parent.gameObject.SetActive(false);
+        fuelText.transform.parent.gameObject.SetActive(false);
+        medicineText.transform.parent.gameObject.SetActive(false);
+        healthText.transform.parent.gameObject.SetActive(false);
+        clinicText.transform.parent.gameObject.SetActive(false);
     }
 
     public void ToggleMenuButtons(bool state)
@@ -203,12 +206,12 @@ public class UIManager : MonoBehaviour
     public void UpdateResources(
         ResourceManager resources, int level, int day)
     {
-        moneyText.gameObject.SetActive(true);
-        foodText.gameObject.SetActive(true);
-        fuelText.gameObject.SetActive(true);
-        medicineText.gameObject.SetActive(true);
-        healthText.gameObject.SetActive(true);
-        clinicText.gameObject.SetActive(level == 2);
+        moneyText.transform.parent.gameObject.SetActive(true);
+        foodText.transform.parent.gameObject.SetActive(true);
+        fuelText.transform.parent.gameObject.SetActive(true);
+        medicineText.transform.parent.gameObject.SetActive(true);
+        healthText.transform.parent.gameObject.SetActive(true);
+        clinicText.transform.parent.gameObject.SetActive(level == 2);
 
         levelText.text = level == 1
             ? "Level 1: Havana"
@@ -316,6 +319,11 @@ public class UIManager : MonoBehaviour
         SetButton(actionButtons[5], true, "Seek Assistance\n");
 
         SetButton(actionButtons[6], level == 2, "Treat Patients\n(-1 Med)");
+    }
+
+    public void LevelTwoIntroPanel()
+    {
+        blockerPanel.SetActive(true);
     }
 
     // ======================================
