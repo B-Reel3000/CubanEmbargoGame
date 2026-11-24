@@ -317,11 +317,11 @@ public class UIManager : MonoBehaviour
         SetButton(actionButtons[0], true, "Buy Food\n($12)");
         SetButton(actionButtons[1], true, "Buy Fuel\n($10)");
         SetButton(actionButtons[2], true, "Buy Medicine\n($15)");
-        SetButton(actionButtons[3], true, "Work\n(+$18)");
-        SetButton(actionButtons[4], true, "Rest\n(+12 Health)");
+        SetButton(actionButtons[3], true, "Work\n");
+        SetButton(actionButtons[4], true, "Rest\n");
         SetButton(actionButtons[5], true, "Seek Assistance\n");
 
-        SetButton(actionButtons[6], level == 2, "Treat Patients\n(-1 Med)");
+        SetButton(actionButtons[6], level == 2, "Treat Patients\n");
     }
 
     public void LevelTwoIntroPanel()
