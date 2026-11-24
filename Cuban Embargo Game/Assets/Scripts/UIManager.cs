@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class UIManager : MonoBehaviour
 {
@@ -30,6 +31,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject eventPanel;
     [SerializeField] private GameObject popupPanel;
     [SerializeField] private GameObject blockerPanel;
+    [SerializeField] private GameObject fadePanel;
     [SerializeField] private TMP_Text eventDescriptionText;
     [SerializeField] private TMP_Text menuPopupText;
     [SerializeField] private Button choice1Button;
@@ -40,7 +42,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject menuPanel;
     [SerializeField] private Image topHUDBackground, topHUDFrame;
     [SerializeField] private Image bottomActionBackground, bottomHUDFrame;
-    [SerializeField] private GameObject playButton, helpButton, creditButton;
+    [SerializeField] private GameObject playButton, helpButton, creditButton, quitButton;
 
     [Header("Player Feedback")]
     [SerializeField] private GameObject feedbackPanel;
@@ -69,7 +71,8 @@ public class UIManager : MonoBehaviour
         {
             playButton,
             helpButton,
-            creditButton
+            creditButton,
+            quitButton
         };
 
         if (!ValidateReferences())
@@ -323,7 +326,27 @@ public class UIManager : MonoBehaviour
 
     public void LevelTwoIntroPanel()
     {
+        Time.timeScale = 0f;
+        StartCoroutine(LevelTwoTransition());
+    }
+
+    IEnumerator LevelTwoTransition()
+    {
+        fadePanel.GetComponent<Image>().raycastTarget = true;
+        for (int i = 0; i < 51; i++)
+        {
+            fadePanel.GetComponent<Image>().color = new Color(0, 0, 0, i * 0.02f);
+            yield return new WaitForSecondsRealtime(0.02f);
+        }
+        Time.timeScale = 1f;
         blockerPanel.SetActive(true);
+        yield return new WaitForSecondsRealtime(1f);
+        for (int i = 51; i > 0; i--)
+        {
+            fadePanel.GetComponent<Image>().color = new Color(0, 0, 0, i * 0.02f);
+            yield return new WaitForSecondsRealtime(0.02f);
+        }
+        fadePanel.GetComponent<Image>().raycastTarget = false;
     }
 
     // ======================================

@@ -84,6 +84,8 @@ public class GameManager : MonoBehaviour
         }
 
         ShowMenu();
+
+        Time.timeScale = 1f;
     }
 
     // ======================================
@@ -106,6 +108,11 @@ public class GameManager : MonoBehaviour
     {
         state = GameState.Credits;
         ui.ShowCredits();
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 
     // ======================================
